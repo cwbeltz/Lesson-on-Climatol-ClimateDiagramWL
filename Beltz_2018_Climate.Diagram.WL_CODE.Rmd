@@ -3,13 +3,19 @@ title: "Walter-Lieth Diagrams & the `Climatol` R Package"
 author: "Christopher W. Beltz (@BeltzEcology)" 
 date: "07/24/2018"
 output: pdf_document
-abstract: This is a help file for creating Walter-Lieth climate diagrams in R using the `climatol` package. Walter-Lieth diagrams are used to summarize long-term monthly climate variables over the course of the year. They are standardized in format to increase the ease of interpretation, and aid in comparison between locations or between years. Walter-Lieth diagrams are particularly helpful for identifying water availability and stress to aboveground plant communities. A previous version of this workshop was utilized as part of a course in Global Drylands at the Yale School of Forestry & Environmental Studies in Fall 2017.
+abstract: This is a help file for creating Walter-Lieth climate diagrams in R using the `climatol` package. Walter-Lieth diagrams are used to summarize long-term monthly climate variables over the course of the year. They are standardized in format to increase the ease of interpretation, and aid in comparison between locations or between years. Walter-Lieth diagrams are particularly helpful for identifying water availability and stress to aboveground plant communities. A previous version of this file was utilized as part of a workshop within a course on Global Drylands at the Yale School of Forestry & Environmental Studies in Fall 2017.
 ---
 
 
-##Set-Up
+*Note: This workshop and the following exercises assume no experience with R or RStudio. However, if you have no previous experience with R it is heavily recommended that you do a quick introduction to R and RStudio. Swirl (https://swirlstats.com/) provides an excellent introduction to R and will conduct its introduction from within R itself. Follow the instructions under Swirl's "Learn" tab to get started with the introduction.*
+
+*Note: It is recommended that you work through the R markdown file in order your first time through, running individual lines of code or individual code chunks. Reading the text as you do so will help explain the general process and is extremely important for those that have not worked in R before.*
 
 *Note: Make sure to adjust the working direction in the 3rd code chuck within the "Set-Up" section. This should be set to the directory that you would like to save/export your graphs, as well as where you would like to store the PRISM data.*
+
+
+
+##Set-Up
 
 Install Packages:
 
@@ -40,9 +46,7 @@ rm(list=ls())
 
 ##Workshop Overview
 
-The goal of this workshop is to provide you with the skills to create a Walter-Lieth climate diagram in R for any location within the United States or in North America. In addition, you will be able to create and export PDFs of their graphics that could then be included in presentations, papers, etc.
-
-*This workshop and the following exercises assume no experience with R or RStudio.* However, if you have no previous experience with R it is **heavily** recommended that you do a quick introduction to R and RStudio. Swirl (https://swirlstats.com/) provides an excellent introduction to R and will conduct its introduction from within R itself. Follow the instructions under Swirl's "Learn" tab to get started with the introduction.
+The goal of this workshop is to provide you with the skills to create a Walter-Lieth climate diagram in R for any location within the United States or in North America. In addition, you will be able to create and export PDFs of diagrams that can then be included in presentations, papers, etc.
 
 In order to accomplish this goal, we will use five increasingly complex examples. In these examples, we will:
 (1) create a quick and simple Walter-Lieth climate diagram (henceforth 'CD') using pre-loaded and pre-formatted data. 
@@ -78,6 +82,9 @@ Boston_climate.normal <- read.csv("https://raw.githubusercontent.com/cwbeltz/Ske
 #check data
 head(Boston_climate.normal)
 ```
+
+
+
 
 
 Create a Walter-Lieth climate diagram:
