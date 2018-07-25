@@ -1,0 +1,372 @@
+---
+title: "Walter-Lieth Diagrams & the `Climatol` R Package"
+author: "Christopher W. Beltz (@BeltzEcology)" 
+date: "07/24/2018"
+output: pdf_document
+abstract: This is a help file for creating Walter-Lieth climate diagrams in R using the `climatol` package. Walter-Lieth diagrams are used to summarize long-term monthly climate variables over the course of the year. They are standardized in format to increase the ease of interpretation, and aid in comparison between locations or between years. Walter-Lieth diagrams are particularly helpful for identifying water availability and stress to aboveground plant communities. A previous version of this workshop was utilized as part of a course in Global Drylands at the Yale School of Forestry & Environmental Studies in Fall 2017.
+---
+
+
+##Set-Up
+
+*Note: Make sure to adjust the working direction in the 3rd code chuck within the "Set-Up" section. This should be set to the directory that you would like to save/export your graphs, as well as where you would like to store the PRISM data.*
+
+Install Packages:
+
+```{r, eval=F}
+#only install if needed
+install.packages("climatol")
+install.packages("knitr")
+```
+
+
+Load `climatol` package:
+
+```{r}
+library(climatol)
+library(knitr)
+```
+
+
+```{r setup, echo=F}
+#set working directory
+opts_knit$set(root.dir = "~/Dropbox (Yale_FES)/Sketches/Sketch.001_2018_Climate.Diagram.WL")
+
+#remove objects
+rm(list=ls())
+```
+
+
+
+##Workshop Overview
+
+The goal of this workshop is to provide you with the skills to create a Walter-Lieth climate diagram in R for any location within the United States or in North America. In addition, you will be able to create and export PDFs of their graphics that could then be included in presentations, papers, etc.
+
+*This workshop and the following exercises assume no experience with R or RStudio.* However, if you have no previous experience with R it is **heavily** recommended that you do a quick introduction to R and RStudio. Swirl (https://swirlstats.com/) provides an excellent introduction to R and will conduct its introduction from within R itself. Follow the instructions under Swirl's "Learn" tab to get started with the introduction.
+
+In order to accomplish this goal, we will use five increasingly complex examples. In these examples, we will:
+(1) create a quick and simple Walter-Lieth climate diagram (henceforth 'CD') using pre-loaded and pre-formatted data. 
+(2) manually enter 1981-2010 climate normals from NOAA and create a CD.
+(3) download climate normals from Daymet and create a CD.
+(4) create a set of three CDs simultaneously using 'bulk downloaded' PRISM data which we will then manipulate into the correct format within R. 
+(5) create a CD using daily data and then including a calculation of 'absolute monthly minimum' temperature, while aggregating our data into 30-year required format for `climatol`.
+
+
+
+##Example 1: Kingfisher, OK
+
+In Example 1, we will create a quick CD for Boston, MA (USA). The climate normals for Boston have already been downloaded and formatted correctly into a CSV file 
+
+The format of your CSV file should be 4x12. Each of the four rows, beginning with the first row, should contain monthly variables for precip (mm), mean max monthly temp (C), mean monthly minimum temp (C), and absolute monthly minimum temp(C), respectively. Each of the twelve columns should correspond to data for a month of the year beginning with January. *Note: It is permissable within the `climatol` package to name each column by month, creating an additional row - as long as this row is on the top. It will be read in as a header and NOT as data.*
+
+
+**Name: Boston, MA**
+
+Years: 1981-2010
+
+Lat/Long: 42.3611° / -71.0571°
+
+Elevation: 5m
+
+
+Reading data directly into R (only for pre-calculated data):
+
+*Note: For the Kingfisher data, I did all the data manipulation as we did in class on September 13, 2017. Running the code chunk below will read the data, in the correct format, directly into R from my Dropbox.*
+
+```{r}
+#read in data
+Boston_climate.normal <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/Sketch.001_Climate.Diagram.WL_Example.1_DATA_Boston.MA.csv", as.is=T)
+
+#check data
+head(Boston_climate.normal)
+```
+
+
+Create a Walter-Lieth diagram:
+
+```{r}
+diagwl(Boston_climate.normal[,-1], est="Boston, MA", alt=5, per="1981-2010", mlab="en")
+```
+
+\pagebreak
+
+Create a Walter-Lieth diagram and export in PDF format:
+
+The most important (and only) diffence from what we just did above, is that to create a PDF we need to 'open' and 'close' our PDF file. This basically tells R the boundaries of what we want to have converted into a PDF by giving this processes a beginning and end. The PDF file will end up inside the working directory you set at the beginning of the analysis or code chunk. *Note: R will write over any PDF with the same name in the same directory. You will want to either name each single-page PDF differently or put multiple graphics into the same document.*
+
+
+Walter-Lieth diagram exported in a PDF format:
+
+```{r, eval=F}
+#open PDF
+pdf("Beltz_2017_FES634_Walter.Lieth_Kingfisher.OK_DIAGRAM.pdf", width=8.0, height=6.0)
+
+diagwl(Kingfisher.climdat, est="Kingfisher, OK", alt=320, per="1981-2010", mlab="en")
+
+#close PDF
+dev.off()
+```
+
+
+Remove all files from Example 1:
+
+```{r}
+rm(Kingfisher.climdat)
+```
+
+
+
+##Example 2: Three locations using PRISM
+
+For this example, we will use PRISM data instead of NOAA. The benefit of PRISM is that it allows you to choose any location within the United States, regardless of whether there is a meteorological station at that location. In addition, PRISM datasets are available in 30-year climate normals for the 1981-2010 period and these are able to be downloaded in CSV format for multiple locations at one time. However, we will still have to wrangle the data into the same format as in Example 1 (i.e. a 4x12 matrix) in order to use `climatol`.
+
+
+**Name: Cheyenne, WY**
+
+Elevation: 1856m
+
+Years: 1981-2010
+
+Lat/Long: 41.1400°, -104.8202° (from latlong.net)
+
+**Name: Thunder Basin National Grassland (near Bill, WY)**
+
+Elevation: 1338m
+
+Years: 1981-2010
+
+Lat/Long: 43.43395497°, -104.931518° (from Garmin handheld)
+
+**Name: Central Plains Experimental Range (near Nunn, CO)**
+
+Elevation: 1648m
+
+Years: 1981-2010
+
+Lat/Long: 40.81882498°, -104.732638° (from Garmin handheld)
+
+
+Download GPS locations with lat/long and upload to PRISM website:
+
+```{r, eval=F}
+locations <- read.csv("https://www.dropbox.com/s/jki86mayd0kht8a/LOCATIONS_Lat.Long.csv?dl=1")
+
+#create csv on your computer
+write.table(locations, file="LOCATIONS_PRISM_UPLOAD.csv", row.names=F, col.names=F, sep=",")
+
+rm(locations)
+```
+
+Now that you have the lat/long of your locations, use the PRISM Data Explorer and upload the CSV file, "LOCATIONS_PRISM_UPLOAD.csv." Go to http://prism.nacse.org/explorer/bulk.php# and use the "Open Locations File" button in the middle of the page to upload the locations file. Make sure to select the following: 30-yr normals in 800m resolution, SI (metric), interpolate values, precipitation, minimum temperature, and maximum temperature. After making those selections, upload the locations file. Click on "Prepare & Download Time Series" and the download should begin. The file will be named something similar to "PRISM_ppt_tmin_tmax_30yr_normal_800m_monthly_normals.csv."
+
+You may now use Excel or another spreadsheet program to manually manipulate the data into the correct format or you can use/modify the script below to do so.
+
+*Note: If you use this code for to create diagrams for other sites, make sure to include an intelligable site name. This name will be carried through as part of the final file name fed into `climatol`.
+
+
+Read in PRISM data:
+
+```{r}
+#Note you will need to add the correct file path on your computer here
+tmp.orig <- read.csv("~/Dropbox (Yale_FES)/Yale_Univ/2017_Fall/TF_Global.Drylands/Climate_Diagrams/Data/PRISM_ppt_tmin_tmax_30yr_normal_800m_monthly_normals.csv", skip=10) #skip 10 rows of metadata
+```
+
+
+Manipulating the CSV file of PRISM into format for `climatol`:
+
+*Note: The code below could be built into a single function. I have left it as a single manipulation per line so that you can follow each step more easily, if you would like to.*
+
+```{r}
+loc.elev <- data.frame(Loc=unique(tmp.orig$Name), elev=unique(tmp.orig$Elevation..m.)) #create file with location name and elevation to reference later
+
+tmp.manip <- split(tmp.orig, tmp.orig$Name, drop = TRUE) #split PRISM data by location name
+tmp.manip <- lapply(tmp.manip, function(x) x[-13,-c(1:5)]) #remove row 13 (annual data) and columns 1 to 5 from all dataframes
+tmp.manip <- lapply(tmp.manip, setNames, c("ppt", "Tmin", "Tmax")) #simplify column names
+tmp.manip <- lapply(tmp.manip, function(x) {rownames(x) <- NULL; x}) #remove rownames
+tmp.manip <- lapply(tmp.manip, function(x) x[,c(1,3,2)]) #reorder columns for climatol format
+tmp.manip <- lapply(tmp.manip, function(x) {cbind(x, Tabs = x$Tmin)}) #copy Tmin as Tabs
+tmp.manip <- lapply(tmp.manip, t) #transpose data
+
+list2env(setNames(tmp.manip, sprintf("PRISM_%s", gsub("\\s+", "_", names(tmp.manip)))), .GlobalEnv) #convert list of PRISM sites from split into dataframes for individual locations
+
+rm(tmp.orig, tmp.manip)
+```
+
+
+Create three Walter-Lieth graphics in a single PDF:
+
+```{r, eval=F}
+#open PDF
+pdf("Beltz_2017_FES634_Walter.Lieth_TRIPLE_DIAGRAM.pdf", width=6.0, height=6.0)
+
+#Central Plains Experimental Range near Nunn, CO
+diagwl(PRISM_Central_Plai, est="CPER near Nunn, CO", alt=1651, per="1981-2010", mlab="en")
+
+#Cheyenne, WY
+diagwl(PRISM_Cheyenne, est="HPGRS in Cheyenne, WY", alt=1857, per="1981-2010", mlab="en")
+
+#Thunder Basin National Grasslands near Bill, WY
+diagwl(PRISM_Thunder_Basi, est="TBNG near Bill, WY", alt=1338, per="1981-2010", mlab="en")
+
+#close PDF
+dev.off()
+```
+
+
+Remove all files from Example 2:
+
+```{r}
+rm(list=ls(pattern="PRISM_"), loc.elev)
+```
+
+
+##Example 3: Obtaining 'absolute minimum temperature'
+
+Thus far we have used 'mean minimum monthly temperature' in the place of 'absolute minimum temperature.' While this can be a close proxy and allows for the quick generation of Walter-Lieth diagrams using climate normals, absolute minimum temperature gives us a better indication of days with frost. To calculate absolute minimum temperature, we need to go back to daily data.
+
+Go back to the PRISM: Data Explorer (http://www.prism.oregonstate.edu/explorer/) and download the data for New Haven, CT. Get as close to FES and Sage Hall as possible. You should make all the same selections as in Example 2, **except** choose daily values (Jan 1, 1981-Dec 31, 2010). *Note: You will only be able to select entire grid cells at first. Once you select 'interpolate grid cell values,' you will be able to choose any point within the U.S.'*
+
+
+Install the `lubridate` package:
+
+```{r, eval=F}
+#only install if needed
+install.packages("lubridate")
+```
+
+
+Load `lubridate` package:
+
+```{r}
+library(lubridate)
+```
+
+
+Read in the FES daily PRISM data:
+
+*Note: You should have almost 11,000 observations.*
+
+```{r}
+#Note you will need to add the correct file path on your computer here
+tmp.orig <- read.csv("~/Dropbox (Yale_FES)/Yale_Univ/2017_Fall/TF_Global.Drylands/Climate_Diagrams/Data/PRISM_ppt_tmin_tmax_stable_4km_19810101_20101231_41.3171_-72.9236.csv", skip=10)
+```
+
+
+View FES daily PRISM data:
+
+```{r}
+head(tmp.orig)
+```
+
+
+Extract year, month, & day with `lubridate`:
+
+```{r}
+tmp.orig$Year <- year(tmp.orig$Date)
+tmp.orig$Month <- month(tmp.orig$Date)
+tmp.orig$Day <- day(tmp.orig$Date)
+
+tmp.orig <- setNames(tmp.orig, c("Date", "ppt_mm", "Tmin_C", "Tmax_C", "Year", "Month", "Day")) #simplify column names
+
+head(tmp.orig)
+```
+
+
+Remove original date column:
+
+```{r}
+tmp.orig <- tmp.orig[,-1]
+
+head(tmp.orig)
+```
+
+
+Install `dplyr` package:
+
+```{r, eval=F}
+#only install if needed
+install.packages("dplyr")
+```
+
+
+Load `dplyr` package:
+
+```{r}
+library(dplyr)
+```
+
+
+Summarize data by year & month:
+
+```{r}
+tmp.mod1 <- tmp.orig %>% group_by(Year, Month) %>% summarize(sum(ppt_mm), mean(Tmax_C), mean(Tmin_C), min(Tmin_C))
+
+colnames(tmp.mod1) <- c("Year", "Month", "ppt_mm", "Tmax_C", "Tmin_C", "Tabs_C")
+head(tmp.mod1)
+```
+
+
+Summarize data by month to get 30-yr climate normals with *absolute minimum temperature*:
+
+```{r}
+tmp.mod2 <- tmp.mod1 %>% group_by(Month) %>% summarize(mean(ppt_mm), mean(Tmax_C), mean(Tmin_C), min(Tabs_C))
+
+colnames(tmp.mod2) <- c("Month", "ppt_mm", "Tmax_C", "Tmin_C", "Tabs_C")
+tmp.mod2 <- tmp.mod2[,-1]
+
+str(tmp.mod2)
+```
+
+
+Transpose dataframe to `climatol` format:
+
+```{r}
+tmp.mod3 <- t(tmp.mod2)
+
+head(tmp.mod3)
+```
+
+
+Create Walter-Lieth diagram of New Haven, CT:
+
+```{r}
+diagwl(tmp.mod3, est="New Haven, CT", alt=20, per="1981-2010", mlab="en")
+```
+
+
+Remove all files from Example 3:
+
+```{r}
+rm(list=ls(pattern="tmp."))
+```
+
+
+
+##Additional Resources
+
+
+**Climatol-specific resources and package notes**
+
+http://www.climatol.eu/
+
+
+**"How to Build a Climate Diagram in R"**
+
+http://nestcities.blogspot.com/2013/10/how-to-build-climate-diagram-in-r.html
+
+
+**Organization of Climate Diagrams and Typical Types**
+
+*Note: This diagram refers to years of temperature/precipitation collection rather than collection period.*
+
+http://www.zoolex.org/walter.html
+
+
+**PRISM: Data Explorer**
+
+http://prism.nacse.org/explorer/
+
+
+**Daymet Climate Summaries**
+
+https://daymet.ornl.gov/
