@@ -53,11 +53,11 @@ In order to accomplish this goal, we will use five increasingly complex examples
 
 
 
-##Example 1: Kingfisher, OK
+##Example 1: Quick Climate Diagram & Data Format
 
-In Example 1, we will create a quick CD for Boston, MA (USA). The climate normals for Boston have already been downloaded and formatted correctly into a CSV file 
+In Example 1, we will create a quick CD for Boston, MA (USA). The climate normals for Boston have already been downloaded and converted into a CSV (comma separated values) file.
 
-The format of your CSV file should be 4x12. Each of the four rows, beginning with the first row, should contain monthly variables for precip (mm), mean max monthly temp (C), mean monthly minimum temp (C), and absolute monthly minimum temp(C), respectively. Each of the twelve columns should correspond to data for a month of the year beginning with January. *Note: It is permissable within the `climatol` package to name each column by month, creating an additional row - as long as this row is on the top. It will be read in as a header and NOT as data.*
+The format of your CSV file should be 4x12. Each of the four rows, beginning with the first/top row, should contain monthly variables for precip (mm), mean max monthly temp (C), mean monthly minimum temp (C), and absolute monthly minimum temp(C), respectively. Each of the twelve columns should correspond to data for a month of the year beginning with January. *Note: It is permissable within the `climatol` package to name each column by month, creating an additional row - as long as this row is on the top. It will be read in as a header and NOT as data.*
 
 
 **Name: Boston, MA**
@@ -69,9 +69,7 @@ Lat/Long: 42.3611° / -71.0571°
 Elevation: 5m
 
 
-Reading data directly into R (only for pre-calculated data):
-
-*Note: For the Kingfisher data, I did all the data manipulation as we did in class on September 13, 2017. Running the code chunk below will read the data, in the correct format, directly into R from my Dropbox.*
+Reading data directly into R:
 
 ```{r}
 #read in data
@@ -82,13 +80,12 @@ head(Boston_climate.normal)
 ```
 
 
-Create a Walter-Lieth diagram:
+Create a Walter-Lieth climate diagram:
 
 ```{r}
 diagwl(Boston_climate.normal[,-1], est="Boston, MA", alt=5, per="1981-2010", mlab="en")
 ```
 
-\pagebreak
 
 Create a Walter-Lieth diagram and export in PDF format:
 
@@ -99,19 +96,12 @@ Walter-Lieth diagram exported in a PDF format:
 
 ```{r, eval=F}
 #open PDF
-pdf("Beltz_2017_FES634_Walter.Lieth_Kingfisher.OK_DIAGRAM.pdf", width=8.0, height=6.0)
+pdf("CD_Boston.pdf", width=6.0, height=8.0)
 
-diagwl(Kingfisher.climdat, est="Kingfisher, OK", alt=320, per="1981-2010", mlab="en")
+diagwl(Boston_climate.normal[,-1], est="Boston, MA", alt=5, per="1981-2010", mlab="en")
 
 #close PDF
 dev.off()
-```
-
-
-Remove all files from Example 1:
-
-```{r}
-rm(Kingfisher.climdat)
 ```
 
 
