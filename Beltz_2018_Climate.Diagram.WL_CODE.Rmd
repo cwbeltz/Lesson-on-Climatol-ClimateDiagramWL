@@ -1,7 +1,7 @@
 ---
 title: "Walter-Lieth Diagrams & the `Climatol` R Package"
 author: "Christopher W. Beltz (@BeltzEcology)" 
-date: "07/24/2018"
+date: "01/30/2020"
 output: pdf_document
 abstract: This is a help file for creating Walter-Lieth climate diagrams in R using the `climatol` package. Walter-Lieth diagrams are used to summarize long-term monthly climate variables over the course of the year. They are standardized in format to increase the ease of interpretation, and aid in comparison between locations or between years. Walter-Lieth diagrams are particularly helpful for identifying water availability and stress to aboveground plant communities. A previous version of this file was utilized as part of a workshop within a course on Global Drylands at the Yale School of Forestry & Environmental Studies in Fall 2017.
 ---
@@ -23,6 +23,7 @@ Install Packages:
 #only install if needed
 install.packages("climatol")
 install.packages("knitr")
+install.packages("here")
 ```
 
 
@@ -31,15 +32,7 @@ Load `climatol` package:
 ```{r}
 library(climatol)
 library(knitr)
-```
-
-
-```{r setup, echo=F}
-#set working directory
-opts_knit$set(root.dir = "~/Dropbox (Yale_FES)/Sketches/Sketch.001_2018_Climate.Diagram.WL")
-
-#remove objects
-rm(list=ls())
+library(here)
 ```
 
 
