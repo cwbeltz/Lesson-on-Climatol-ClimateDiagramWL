@@ -68,7 +68,7 @@ Reading data directly into R:
 
 ```{r}
 #read in data
-Boston_climate.normal <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/Sketch.001_Climate.Diagram.WL_Example.1_DATA_Boston.MA.csv", as.is=T)
+Boston_climate.normal <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/Sketch.001_Climate.Diagram.WL_Example.1_DATA_Boston.MA.csv", as.is=TRUE)
 
 #check data frame
 head(Boston_climate.normal)
@@ -79,7 +79,7 @@ Formatting Data for `climatol`:
 
 The `climatol` package requires the climate data to be formatted in a 4x12 (rows x columns) CSV file. Each of the four rows, beginning with the first/top row, should contain monthly variables for precipitation (mm), mean max monthly temperature (C), mean monthly minimum temperature (C), and absolute monthly minimum temperature (C), respectively. Each of the twelve columns should correspond to data for a month of the year beginning with January. *Note: It is permissable within the `climatol` package to name each column by month, creating an additional row - as long as this row is on the top. It will be read in as a header and NOT as data.*
 
-If we look at the header of our data from the code chunk above (i.e. `head` called in line 80), we can see that the order of our variables matches matches the description from the paragraph above. However, you should also notice that the data frame is 4x13 - meaning that there is currently an extra column present. If you re-read the description of the required format, you will notice that the first column (i.e. the column with the variable names: "ppt_mm", tmax_C, etc.) is not part of the required format. This column was included to explicit show the orientation of variables within the data table, however we can now remove it.
+If we look at the header of our data from the code chunk above (i.e. `head()` called in line 74), we can see that the order of our variables matches matches the description from the paragraph above. However, you should also notice that the data frame is 4x13 - meaning that there is currently an extra column present. If you re-read the description of the required format, you will notice that the first column (i.e. the column with the variable names: "ppt_mm", tmax_C, etc.) is not part of the required format. This column was included to explicit show the orientation of variables within the data table, however we can (and need to) now remove it.
 
 *Note: If you noticed that the 3rd and 4th row (mean monthly minimum temperature and absolute monthly minimum temperature) in the data table above contain identical information, you would be correct! We will address this specifically in Example 5. For the first four examples, we will use the mean monthly minimum temperature as the absolute monthly minimum temperature.*
 
