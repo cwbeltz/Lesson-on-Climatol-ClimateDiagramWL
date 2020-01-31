@@ -1,7 +1,7 @@
 ---
 title: "Walter-Lieth Diagrams & the `Climatol` R Package"
 author: "Christopher W. Beltz (@BeltzEcology)" 
-date: "01/30/2020"
+date: "2020-01-30"
 output: pdf_document
 abstract: This is a help file for creating Walter-Lieth climate diagrams in R using the `climatol` package. Walter-Lieth diagrams are used to summarize long-term monthly climate variables over the course of the year. They are standardized in format to increase the ease of interpretation, and aid in comparison between locations or between years. Walter-Lieth diagrams are particularly helpful for identifying water availability and stress to aboveground plant communities. A previous version of this file was utilized as part of a workshop within a course on Global Drylands at the Yale School of Forestry & Environmental Studies in Fall 2017.
 ---
@@ -102,33 +102,48 @@ diagwl(Boston_climate.normal, est="Boston, MA", alt=5, per="1981-2010", mlab="en
 
 
 
-##Example 2: Manually Entering Data & Exporting the Climate Diagram as a PDF
+##Example 2: Entering Data & Exporting the Climate Diagram as a PDF
 
-In Example 1, we will create a quick CD for Boston, MA (USA). The climate normals for Boston have already been downloaded and converted into a CSV (comma separated values) file.
+For this example, we will be locating 30-year Climate Normals on the National Oceanic and Atmospheric Administration (NOAA) data tools on their website.
 
-The format of your CSV file should be 4x12. Each of the four rows, beginning with the first/top row, should contain monthly variables for precip (mm), mean max monthly temp (C), mean monthly minimum temp (C), and absolute monthly minimum temp(C), respectively. Each of the twelve columns should correspond to data for a month of the year beginning with January. *Note: It is permissable within the `climatol` package to name each column by month, creating an additional row - as long as this row is on the top. It will be read in as a header and NOT as data.*
+1981-2010 Normals can be found here: https://www.ncdc.noaa.gov/cdo-web/datatools/normals
+
+Select *monthly normals* > *New York* > *NY City Central Park, NY US*
+
+You should now see a line graph immediately below your selctions showing precipitation and temperature in four different colors. Below that graph is a table of all the climate data you will need for you CD. You will also need some additional information to fill out the diagram, including the years of the normals, the lattitude and longitude, and the elevation.
+
+The current set of normals are 1981-2010; this is the only 30-year normal available currently as part of this tool (at least as of 2020-01-30). The lattitude, longitude, and altitude can be found in the "Station Report"; a link to this report is locate to the right of the "NY CITY CENTRAL PARK, NY US" header.
+
+Once you hace those three pieces of information, you can find the climate data in the table on the bottom of the web page. Note the format of the data; it includes 12 months of data for four variables. We actually don't need the average monthly temperature, but it may be easiest to copy/paste the entire table from the NOAA website and then remove the average temperatures. Manually enter (or copy/paste) the data into the correct format shown in Example 1.
+
+*Note: If you are using Microsoft Excel, `paste special` and `transpose` may be helpful to getting the data into the correct format.*
+
+*Note: Remember to order the rows of data correctly, removing the average monthly temperature and using the minimum temperature in two places (i.e., minimum and abs minimum).*
 
 
-**Name: Boston, MA**
+**Name: New York City, NY**
 
 Years: 1981-2010
 
-Lat/Long: 42.3611° / -71.0571°
+Lat/Long: 40.7790° / -73.9693°
 
-Elevation: 5m
+Elevation: 42.7m
 
-Create a Walter-Lieth diagram and export in PDF format:
+```{r, eval=F}
+#NYC data for walk-through only. REMOVE THIS CHUNK for any actual assignments.
 
-The most important (and only) diffence from what we just did above, is that to create a PDF we need to 'open' and 'close' our PDF file. This basically tells R the boundaries of what we want to have converted into a PDF by giving this processes a beginning and end. The PDF file will end up inside the working directory you set at the beginning of the analysis or code chunk. *Note: R will write over any PDF with the same name in the same directory. You will want to either name each single-page PDF differently or put multiple graphics into the same document.*
+```
+
+
 
 
 Walter-Lieth diagram exported in a PDF format:
 
 ```{r, eval=F}
 #open PDF
-pdf("CD_Boston.pdf", width=6.0, height=8.0)
+pdf("CD_NYC.pdf", width=6.0, height=8.0)
 
-diagwl(Boston_climate.normal[,-1], est="Boston, MA", alt=5, per="1981-2010", mlab="en")
+diagwl(NYC_climate.normal[,-1], est="NYC, NY", alt=42.7, per="1981-2010", mlab="en")
 
 #close PDF
 dev.off()
@@ -136,7 +151,7 @@ dev.off()
 
 
 
-##Example 2: Three locations using PRISM
+##Example 3: Three locations using PRISM
 
 For this example, we will use PRISM data instead of NOAA. The benefit of PRISM is that it allows you to choose any location within the United States, regardless of whether there is a meteorological station at that location. In addition, PRISM datasets are available in 30-year climate normals for the 1981-2010 period and these are able to be downloaded in CSV format for multiple locations at one time. However, we will still have to wrangle the data into the same format as in Example 1 (i.e. a 4x12 matrix) in order to use `climatol`.
 
@@ -240,7 +255,7 @@ rm(list=ls(pattern="PRISM_"), loc.elev)
 ```
 
 
-##Example 3: Obtaining 'absolute minimum temperature'
+##Example 4: Obtaining 'absolute minimum temperature'
 
 Thus far we have used 'mean minimum monthly temperature' in the place of 'absolute minimum temperature.' While this can be a close proxy and allows for the quick generation of Walter-Lieth diagrams using climate normals, absolute minimum temperature gives us a better indication of days with frost. To calculate absolute minimum temperature, we need to go back to daily data.
 
