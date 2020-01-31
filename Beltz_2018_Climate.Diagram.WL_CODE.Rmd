@@ -24,6 +24,7 @@ Install Packages:
 install.packages("climatol")
 install.packages("knitr")
 install.packages("dplyr")
+install.packages("tidyr")
 install.packages("lubridate")
 install.packages("here")
 ```
@@ -40,6 +41,7 @@ Load other packages:
 ```{r}
 library(knitr)
 library(dplyr)
+library(tidyr)
 library(lubridate)
 library(here)
 ```
@@ -238,17 +240,39 @@ Vancouver_sub$month <- month(as.POSIXlt(Vancouver_sub$year.yday, format="%Y-%j")
 ```
 
 
+Transform DAYMET data to wide format:
+
+```{r}
+Vancouver_sub <- pivot_wider(Vancouver_sub, id_cols=c(year, yday, month), names_from=measurement, values_from=value)
+```
+
+
 Condense daily data to 30-yr monthly climate normals:
 
 ```{r}
+#to means for each month within year
+tmp.mod1_Van <- Vancouver_sub %>% group_by(year, month) %>% summarize(PPT_mm=sum(prcp..mm.day.), Tmax_C=mean(tmax..deg.c.), Tmin_C=mean(tmin..deg.c.), Tabs_C=min(tmin..deg.c.))
 
+#to means for each month across years
+Vancouver_climate.normal <- tmp.mod1_Van %>% group_by(month) %>% summarize(PPT_mm=mean(PPT_mm), Tmax_C=mean(Tmax_C), Tmin_C=mean(Tmin_C), Tabs_C=min(Tabs_C))
 ```
+
+
+Put calculated 30-yr monthly climate normals into correct format:
+
+```{r}
+#remove month in left column
+Vancouver_climate.normal <- Vancouver_climate.normal[,-1]
+
+Vancouver_climate.normal <- as.data.frame(t(Vancouver_climate.normal), stringsAsFactors = FALSE)
+```
+
 
 
 Create Walter-Lieth diagram:
 
 ```{r}
-#diagwl(Vancouver_climate.normal, est="Vancouver, Canada", alt=34, per="1981-2010", mlab="en")
+diagwl(Vancouver_climate.normal, est="Vancouver, Canada", alt=34, per="1981-2010", mlab="en")
 ```
 
 
