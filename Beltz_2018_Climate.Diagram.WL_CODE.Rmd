@@ -1,9 +1,18 @@
 ---
 title: "Walter-Lieth Diagrams & the `Climatol` R Package"
-author: "Christopher W. Beltz (@BeltzEcology)" 
-date: "2020-01-31"
-output: pdf_document
-abstract: This is a help file for creating Walter-Lieth climate diagrams in R using the `climatol` package. Walter-Lieth diagrams are used to summarize long-term monthly climate variables over the course of the year. They are standardized in format to increase the ease of interpretation, and aid in comparison between locations or between years. Walter-Lieth diagrams are particularly helpful for identifying water availability and stress to aboveground plant communities. A previous version of this file was utilized as part of a workshop within a course on Global Drylands at the Yale School of Forestry & Environmental Studies in Fall 2017.
+author: "Christopher W. Beltz (@BeltzEcology)"
+date: '2020-01-31'
+output:
+  html_document:
+    df_print: paged
+abstract: This is a help file for creating Walter-Lieth climate diagrams in R using
+  the `climatol` package. Walter-Lieth diagrams are used to summarize long-term monthly
+  climate variables over the course of the year. They are standardized in format to
+  increase the ease of interpretation, and aid in comparison between locations or
+  between years. Walter-Lieth diagrams are particularly helpful for identifying water
+  availability and stress to aboveground plant communities. A previous version of
+  this file was utilized as part of a workshop within a course on Global Drylands
+  at the Yale School of Forestry & Environmental Studies in Fall 2017.
 ---
 
 
