@@ -268,11 +268,24 @@ Vancouver_climate.normal <- as.data.frame(t(Vancouver_climate.normal), stringsAs
 ```
 
 
+Get site information for Vancouver:
+
+```{r}
+Vancouver_site
+```
+
 
 Create Walter-Lieth diagram:
 
 ```{r}
 diagwl(Vancouver_climate.normal, est="Vancouver, Canada", alt=34, per="1981-2010", mlab="en")
+```
+
+
+Remove all files from Example 3:
+
+```{r}
+rm(tmp.mod1_Van, Vancouver_data, Vancouver_site, Vancouver_sub)
 ```
 
 
@@ -338,7 +351,7 @@ Manipulating the CSV file of PRISM into format for `climatol`:
 *Note: The code below could be built into a single function. I have left it as a single manipulation per line so that you can follow each step more easily, if you would like to.*
 
 ```{r}
-loc.elev <- data.frame(Loc=unique(Ex4.orig$Name), elev=unique(tmp.orig$Elevation..m.)) #create file with location name and elevation to reference later
+loc.elev <- data.frame(Loc=unique(Ex4.orig$Name), elev=unique(Ex4.orig$Elevation..m.)) #create file with location name and elevation to reference later
 
 tmp.manip <- split(tmp.orig, tmp.orig$Name, drop = TRUE) #split PRISM data by location name
 tmp.manip <- lapply(tmp.manip, function(x) x[-13,-c(1:5)]) #remove row 13 (annual data) and columns 1 to 5 from all dataframes
