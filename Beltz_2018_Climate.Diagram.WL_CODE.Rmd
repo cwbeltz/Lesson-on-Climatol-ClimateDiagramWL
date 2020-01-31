@@ -353,7 +353,7 @@ Manipulating the CSV file of PRISM into format for `climatol`:
 ```{r}
 loc.elev <- data.frame(Loc=unique(Ex4.orig$Name), elev=unique(Ex4.orig$Elevation..m.)) #create file with location name and elevation to reference later
 
-tmp.manip <- split(tmp.orig, tmp.orig$Name, drop = TRUE) #split PRISM data by location name
+tmp.manip <- split(Ex4.orig, Ex4.orig$Name, drop = TRUE) #split PRISM data by location name
 tmp.manip <- lapply(tmp.manip, function(x) x[-13,-c(1:5)]) #remove row 13 (annual data) and columns 1 to 5 from all dataframes
 tmp.manip <- lapply(tmp.manip, setNames, c("ppt", "Tmin", "Tmax")) #simplify column names
 tmp.manip <- lapply(tmp.manip, function(x) {rownames(x) <- NULL; x}) #remove rownames
@@ -363,7 +363,7 @@ tmp.manip <- lapply(tmp.manip, t) #transpose data
 
 list2env(setNames(tmp.manip, sprintf("PRISM_%s", gsub("\\s+", "_", names(tmp.manip)))), .GlobalEnv) #convert list of PRISM sites from split into dataframes for individual locations
 
-rm(tmp.orig, tmp.manip)
+rm(Ex4.orig, tmp.manip)
 ```
 
 
