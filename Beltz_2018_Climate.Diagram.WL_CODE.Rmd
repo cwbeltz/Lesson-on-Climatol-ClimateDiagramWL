@@ -23,6 +23,7 @@ Install Packages:
 #only install if needed
 install.packages("climatol")
 install.packages("knitr")
+install.packages("dplyr")
 install.packages("here")
 ```
 
@@ -32,6 +33,7 @@ Load `climatol` package:
 ```{r}
 library(climatol)
 library(knitr)
+library(dplyr)
 library(here)
 ```
 
@@ -173,9 +175,64 @@ dev.off()
 
 
 
+##Example 3: Creating a Climate Diagram using data from DAYMET
+
+DAYMET (https://daymet.ornl.gov/) provides estimates for seven weather parameters for all of North America, inclusive of Canadao, Mexico, and the United States. Begin by loading installing (if needed) and loading the `daymetr` package which will all you to download the needed climate data.
+
+Install the `daymetR` package:
+
+```{r, eval=F}
+#only install if needed
+install.packages("daymetr")
+```
+
+
+Load `daymetr` package:
+
+```{r}
+library(daymetr)
+
+```
+
+
+Download daily DAYMET climate data for Vancouver, Canada:
+
+```{r}
+Vancouver_data <- download_daymet(site = "VancouverCAN",
+                lat = 49.2827,
+                lon = -123.1207,
+                start = 1981,
+                end = 2010,
+                internal = TRUE,
+                simplify = TRUE) #simplify returns tidy data, ready for analysis
+```
+
+
+Subset location/site parameters:
+
+```{r}
+
+```
+
+
+Condense data to 30-yr monthly climate normals:
+
+```{r}
+
+```
+
+
+Create Walter-Lieth diagram:
+
+```{r}
+#diagwl(Vancouver_climate.normal, est="Vancouver, Canada", alt=34, per="1981-2010", mlab="en")
+```
+
+
+
 ##Example 4: Three locations using PRISM
 
-For this example, we will use PRISM data instead of NOAA. The benefit of PRISM is that it allows you to choose any location within the United States, regardless of whether there is a meteorological station at that location. In addition, PRISM datasets are available in 30-year climate normals for the 1981-2010 period and these are able to be downloaded in CSV format for multiple locations at one time. However, we will still have to wrangle the data into the same format as in Example 1 (i.e. a 4x12 matrix) in order to use `climatol`.
+For this example, we will use PRISM data instead of either NOAA or DAYMET. The benefit of PRISM is that it allows you to choose any location within the United States, regardless of whether there is a meteorological station at that location. In addition, PRISM datasets are available in 30-year climate normals for the 1981-2010 period and these are able to be downloaded in CSV format for multiple locations at one time. However, we will still have to wrangle the data into the same format as in Example 1 (i.e. a 4x12 matrix) in order to use `climatol`.
 
 
 **Name: Cheyenne, WY**
@@ -225,7 +282,7 @@ Read in PRISM data:
 
 ```{r}
 #Note you will need to add the correct file path on your computer here
-PRISM.orig <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/PRISM_ppt_tmin_tmax_30yr_normal_800m_monthly_normals.csv", skip=10) #skip 10 rows of metadata
+Ex4.orig <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/PRISM_ppt_tmin_tmax_30yr_normal_800m_monthly_normals.csv", skip=10) #skip 10 rows of metadata
 ```
 
 
@@ -234,7 +291,7 @@ Manipulating the CSV file of PRISM into format for `climatol`:
 *Note: The code below could be built into a single function. I have left it as a single manipulation per line so that you can follow each step more easily, if you would like to.*
 
 ```{r}
-loc.elev <- data.frame(Loc=unique(PRISM.orig$Name), elev=unique(tmp.orig$Elevation..m.)) #create file with location name and elevation to reference later
+loc.elev <- data.frame(Loc=unique(Ex4.orig$Name), elev=unique(tmp.orig$Elevation..m.)) #create file with location name and elevation to reference later
 
 tmp.manip <- split(tmp.orig, tmp.orig$Name, drop = TRUE) #split PRISM data by location name
 tmp.manip <- lapply(tmp.manip, function(x) x[-13,-c(1:5)]) #remove row 13 (annual data) and columns 1 to 5 from all dataframes
@@ -305,25 +362,25 @@ Read in the FES daily PRISM data:
 
 ```{r}
 #Note you will need to add the correct file path on your computer here
-tmp.orig <- read.csv("~/Dropbox (Yale_FES)/Yale_Univ/2017_Fall/TF_Global.Drylands/Climate_Diagrams/Data/PRISM_ppt_tmin_tmax_stable_4km_19810101_20101231_41.3171_-72.9236.csv", skip=10)
+Ex5.orig <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/PRISM_ppt_tmin_tmax_stable_4km_19810101_20101231_41.3171_-72.9236.csv", skip=10)
 ```
 
 
 View FES daily PRISM data:
 
 ```{r}
-head(tmp.orig)
+head(Ex5.orig)
 ```
 
 
 Extract year, month, & day with `lubridate`:
 
 ```{r}
-tmp.orig$Year <- year(tmp.orig$Date)
-tmp.orig$Month <- month(tmp.orig$Date)
-tmp.orig$Day <- day(tmp.orig$Date)
+Ex5.orig$Year <- year(Ex5.orig$Date)
+Ex5.orig$Month <- month(Ex5.orig$Date)
+Ex5.orig$Day <- day(Ex5.orig$Date)
 
-tmp.orig <- setNames(tmp.orig, c("Date", "ppt_mm", "Tmin_C", "Tmax_C", "Year", "Month", "Day")) #simplify column names
+Ex5.orig <- setNames(Ex5.orig, c("Date", "ppt_mm", "Tmin_C", "Tmax_C", "Year", "Month", "Day")) #simplify column names
 
 head(tmp.orig)
 ```
@@ -332,7 +389,7 @@ head(tmp.orig)
 Remove original date column:
 
 ```{r}
-tmp.orig <- tmp.orig[,-1]
+Ex5.orig <- Ex5.orig[,-1]
 
 head(tmp.orig)
 ```
@@ -356,7 +413,7 @@ library(dplyr)
 Summarize data by year & month:
 
 ```{r}
-tmp.mod1 <- tmp.orig %>% group_by(Year, Month) %>% summarize(sum(ppt_mm), mean(Tmax_C), mean(Tmin_C), min(Tmin_C))
+tmp.mod1 <- Ex5.orig %>% group_by(Year, Month) %>% summarize(sum(ppt_mm), mean(Tmax_C), mean(Tmin_C), min(Tmin_C))
 
 colnames(tmp.mod1) <- c("Year", "Month", "ppt_mm", "Tmax_C", "Tmin_C", "Tabs_C")
 head(tmp.mod1)
@@ -391,7 +448,7 @@ diagwl(tmp.mod3, est="New Haven, CT", alt=20, per="1981-2010", mlab="en")
 ```
 
 
-Remove all files from Example 3:
+Remove all files from Example 5:
 
 ```{r}
 rm(list=ls(pattern="tmp."))
