@@ -133,20 +133,25 @@ Lat/Long: 40.7790° / -73.9693°
 
 Elevation: 42.7m
 
-```{r, eval=F}
+```{r, eval=T}
 #NYC data for walk-through only. REMOVE THIS CHUNK for any actual assignments.
 
 #read in NYC data
 NYC_climate.normal <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/Sketch.001_Climate.Diagram.WL_Example.2_DATA_NYC.NY.csv", as.is=TRUE)
-
-#remove first column with variable names
-NYC_climate.normal <- NYC_climate.normal[,-1]
 
 #check data frame
 head(NYC_climate.normal)
 ```
 
 *Note: R has added an X in front of the numbers that reflect the month. This is not a problem, at least for this use case, and we can ignore it. This is a common occurence when using `read.csv` to read in data that has columns names that begin with or are a number.*
+
+
+Create Walter-Lieth diagram:
+
+```{r}
+diagwl(NYC_climate.normal[,-1], est="NYC, NY", alt=42.7, per="1981-2010", mlab="en")
+```
+
 
 
 Walter-Lieth diagram exported in a PDF format:
