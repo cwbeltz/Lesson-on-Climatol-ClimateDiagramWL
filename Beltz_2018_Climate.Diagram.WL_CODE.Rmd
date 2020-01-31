@@ -156,6 +156,8 @@ diagwl(NYC_climate.normal[,-1], est="NYC, NY", alt=42.7, per="1981-2010", mlab="
 ```
 
 
+To export the CD as a PDF, two additional functions will be needed: `pdf` and `dev.off`. These will create the PDF, insert the CD using `diagwl` and the indicate that the PDF is finished.
+
 
 Walter-Lieth diagram exported in a PDF format:
 
@@ -171,7 +173,7 @@ dev.off()
 
 
 
-##Example 3: Three locations using PRISM
+##Example 4: Three locations using PRISM
 
 For this example, we will use PRISM data instead of NOAA. The benefit of PRISM is that it allows you to choose any location within the United States, regardless of whether there is a meteorological station at that location. In addition, PRISM datasets are available in 30-year climate normals for the 1981-2010 period and these are able to be downloaded in CSV format for multiple locations at one time. However, we will still have to wrangle the data into the same format as in Example 1 (i.e. a 4x12 matrix) in order to use `climatol`.
 
@@ -275,7 +277,7 @@ rm(list=ls(pattern="PRISM_"), loc.elev)
 ```
 
 
-##Example 4: Obtaining 'absolute minimum temperature'
+##Example 5: Obtaining 'absolute minimum temperature'
 
 Thus far we have used 'mean minimum monthly temperature' in the place of 'absolute minimum temperature.' While this can be a close proxy and allows for the quick generation of Walter-Lieth diagrams using climate normals, absolute minimum temperature gives us a better indication of days with frost. To calculate absolute minimum temperature, we need to go back to daily data.
 
