@@ -206,7 +206,7 @@ Lat/Long: 40.81882498°, -104.732638° (from Garmin handheld)
 Download GPS locations with lat/long and upload to PRISM website:
 
 ```{r, eval=F}
-locations <- read.csv("https://www.dropbox.com/s/jki86mayd0kht8a/LOCATIONS_Lat.Long.csv?dl=1")
+locations <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/Sketch.001_Climate.Diagram.WL_LOCATIONS_Lat.Long.csv", as.is=TRUE)
 
 #create csv on your computer
 write.table(locations, file="LOCATIONS_PRISM_UPLOAD.csv", row.names=F, col.names=F, sep=",")
@@ -225,7 +225,7 @@ Read in PRISM data:
 
 ```{r}
 #Note you will need to add the correct file path on your computer here
-tmp.orig <- read.csv("~/Dropbox (Yale_FES)/Yale_Univ/2017_Fall/TF_Global.Drylands/Climate_Diagrams/Data/PRISM_ppt_tmin_tmax_30yr_normal_800m_monthly_normals.csv", skip=10) #skip 10 rows of metadata
+PRISM.orig <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/PRISM_ppt_tmin_tmax_30yr_normal_800m_monthly_normals.csv", skip=10) #skip 10 rows of metadata
 ```
 
 
@@ -234,7 +234,7 @@ Manipulating the CSV file of PRISM into format for `climatol`:
 *Note: The code below could be built into a single function. I have left it as a single manipulation per line so that you can follow each step more easily, if you would like to.*
 
 ```{r}
-loc.elev <- data.frame(Loc=unique(tmp.orig$Name), elev=unique(tmp.orig$Elevation..m.)) #create file with location name and elevation to reference later
+loc.elev <- data.frame(Loc=unique(PRISM.orig$Name), elev=unique(tmp.orig$Elevation..m.)) #create file with location name and elevation to reference later
 
 tmp.manip <- split(tmp.orig, tmp.orig$Name, drop = TRUE) #split PRISM data by location name
 tmp.manip <- lapply(tmp.manip, function(x) x[-13,-c(1:5)]) #remove row 13 (annual data) and columns 1 to 5 from all dataframes
@@ -270,7 +270,7 @@ dev.off()
 ```
 
 
-Remove all files from Example 2:
+Remove all files from Example 4:
 
 ```{r}
 rm(list=ls(pattern="PRISM_"), loc.elev)
@@ -416,7 +416,7 @@ http://nestcities.blogspot.com/2013/10/how-to-build-climate-diagram-in-r.html
 
 *Note: This diagram refers to years of temperature/precipitation collection rather than collection period.*
 
-http://www.zoolex.org/walter.html
+https://www.zoolex.org/page/walter/
 
 
 **PRISM: Data Explorer**
