@@ -120,6 +120,10 @@ Once you hace those three pieces of information, you can find the climate data i
 
 *Note: Remember to order the rows of data correctly, removing the average monthly temperature and using the minimum temperature in two places (i.e., minimum and abs minimum).*
 
+*Note: You will need to convert temperature and precipitation to SI units.*
+*(32°F − 32) × 5/9 = 0°C*
+*1 inch x 25.4 = 25.4 mm*
+
 
 **Name: New York City, NY**
 
@@ -142,7 +146,7 @@ NYC_climate.normal <- NYC_climate.normal[,-1]
 head(NYC_climate.normal)
 ```
 
-
+*Note: R has added an X in front of the numbers that reflect the month. This is not a problem, at least for this use case, and we can ignore it. This is a common occurence when using `read.csv` to read in data that has columns names that begin with or are a number.*
 
 
 Walter-Lieth diagram exported in a PDF format:
