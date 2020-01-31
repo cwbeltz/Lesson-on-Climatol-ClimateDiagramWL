@@ -225,17 +225,16 @@ Vancouver_site <- Vancouver_data[1,1:5]
 Remove extraneous data:
 
 ```{r}
-
+Vancouver_sub <- Vancouver_data[(Vancouver_data$measurement=="prcp..mm.day." | Vancouver_data$measurement=="tmax..deg.c." | Vancouver_data$measurement=="tmin..deg.c."),]
 ```
-
 
 
 Create 'month' variable from day-of-year:
 
 ```{r}
-Vancouver_data$year.yday <- paste(Vancouver_data$year, Vancouver_data$yday, sep="-")
+Vancouver_sub$year.yday <- paste(Vancouver_sub$year, Vancouver_sub$yday, sep="-")
 
-Vancouver_data$month <- month(as.POSIXlt(Vancouver_data$year.yday, format="%Y-%j"), label=TRUE)
+Vancouver_sub$month <- month(as.POSIXlt(Vancouver_sub$year.yday, format="%Y-%j"), label=TRUE)
 ```
 
 
