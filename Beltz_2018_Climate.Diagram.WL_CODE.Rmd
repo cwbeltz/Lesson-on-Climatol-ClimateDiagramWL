@@ -20,7 +20,7 @@ abstract: This is a help file for creating Walter-Lieth climate diagrams in R us
 
 *Note: It is recommended that you work through the R markdown file in order your first time through, running individual lines of code or individual code chunks. Reading the text as you do so will help explain the general process and is extremely important for those that have not worked in R before.*
 
-*Note: Make sure to adjust the working direction in the 3rd code chuck within the "Set-Up" section. This should be set to the directory that you would like to save/export your graphs, as well as where you would like to store the PRISM data.*
+*Note: All files and code can be found on github (https://github.com/cwbeltz/Sketch.001_Climate.Diagram.WL).*
 
 
 
@@ -35,7 +35,6 @@ install.packages("knitr")
 install.packages("dplyr")
 install.packages("tidyr")
 install.packages("lubridate")
-install.packages("here")
 ```
 
 
@@ -52,7 +51,6 @@ library(knitr)
 library(dplyr)
 library(tidyr)
 library(lubridate)
-library(here)
 ```
 
 
