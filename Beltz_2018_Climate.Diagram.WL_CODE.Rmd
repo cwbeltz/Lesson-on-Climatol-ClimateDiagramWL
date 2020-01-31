@@ -428,7 +428,7 @@ Ex5.orig$Day <- day(Ex5.orig$Date)
 
 Ex5.orig <- setNames(Ex5.orig, c("Date", "ppt_mm", "Tmin_C", "Tmax_C", "Year", "Month", "Day")) #simplify column names
 
-head(tmp.orig)
+head(Ex5.orig)
 ```
 
 
