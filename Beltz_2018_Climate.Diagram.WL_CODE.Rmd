@@ -132,6 +132,14 @@ Elevation: 42.7m
 ```{r, eval=F}
 #NYC data for walk-through only. REMOVE THIS CHUNK for any actual assignments.
 
+#read in NYC data
+NYC_climate.normal <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch.001_Climate.Diagram.WL/master/Sketch.001_Climate.Diagram.WL_Example.2_DATA_NYC.NY.csv", as.is=TRUE)
+
+#remove first column with variable names
+NYC_climate.normal <- NYC_climate.normal[,-1]
+
+#check data frame
+head(NYC_climate.normal)
 ```
 
 
