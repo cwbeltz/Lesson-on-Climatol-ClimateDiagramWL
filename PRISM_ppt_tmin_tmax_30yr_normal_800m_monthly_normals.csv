@@ -1,0 +1,53 @@
+PRISM Time Series Data
+Locations: 3
+"Climate variables: ppt,tmin,tmax"
+Spatial resolution: 800m
+Monthly 1981-2010 Normals
+Dataset: Norm81m
+PRISM day definition: 24 hours ending at 1200 UTC on the day shown
+Grid Cell Interpolation: On
+Time series generated: 2017-Sep-16
+Details: http://www.prism.oregonstate.edu/documents/PRISM_datasets.pdf
+Name,Longitude,Latitude,Elevation (m),Date,ppt (mm),tmin (degrees C),tmax (degrees C)
+Cheyenne,-104.8202,41.1400,1857.0,January,7.66,-8.5,4.3
+Cheyenne,-104.8202,41.1400,1857.0,February,12.43,-8.1,5.1
+Cheyenne,-104.8202,41.1400,1857.0,March,28.19,-4.9,8.7
+Cheyenne,-104.8202,41.1400,1857.0,April,41.08,-1.4,12.9
+Cheyenne,-104.8202,41.1400,1857.0,May,60.91,4.0,18.2
+Cheyenne,-104.8202,41.1400,1857.0,June,64.98,8.7,24.0
+Cheyenne,-104.8202,41.1400,1857.0,July,49.55,12.2,28.6
+Cheyenne,-104.8202,41.1400,1857.0,August,49.70,11.4,27.4
+Cheyenne,-104.8202,41.1400,1857.0,September,41.33,6.4,22.5
+Cheyenne,-104.8202,41.1400,1857.0,October,22.58,0.5,15.5
+Cheyenne,-104.8202,41.1400,1857.0,November,15.80,-4.9,8.3
+Cheyenne,-104.8202,41.1400,1857.0,December,11.37,-8.8,3.6
+Cheyenne,-104.8202,41.1400,1857.0,Annual,405.57,0.6,14.9
+
+Thunder Basi,-104.9315,43.4340,1338.0,January,5.29,-10.7,2.5
+Thunder Basi,-104.9315,43.4340,1338.0,February,10.89,-9.3,4.1
+Thunder Basi,-104.9315,43.4340,1338.0,March,21.53,-5.2,9.4
+Thunder Basi,-104.9315,43.4340,1338.0,April,39.71,-0.8,14.7
+Thunder Basi,-104.9315,43.4340,1338.0,May,55.92,4.6,20.1
+Thunder Basi,-104.9315,43.4340,1338.0,June,52.04,9.6,26.1
+Thunder Basi,-104.9315,43.4340,1338.0,July,38.85,13.4,31.7
+Thunder Basi,-104.9315,43.4340,1338.0,August,31.01,12.8,31.2
+Thunder Basi,-104.9315,43.4340,1338.0,September,26.25,6.8,24.9
+Thunder Basi,-104.9315,43.4340,1338.0,October,26.54,0.2,16.9
+Thunder Basi,-104.9315,43.4340,1338.0,November,13.56,-5.8,8.1
+Thunder Basi,-104.9315,43.4340,1338.0,December,8.40,-11.1,2.0
+Thunder Basi,-104.9315,43.4340,1338.0,Annual,329.98,0.4,16.0
+
+Central Plai,-104.7326,40.8188,1651.0,January,7.00,-9.4,5.3
+Central Plai,-104.7326,40.8188,1651.0,February,10.96,-8.6,6.4
+Central Plai,-104.7326,40.8188,1651.0,March,28.49,-4.7,10.8
+Central Plai,-104.7326,40.8188,1651.0,April,40.74,-0.9,15.3
+Central Plai,-104.7326,40.8188,1651.0,May,56.87,4.5,20.4
+Central Plai,-104.7326,40.8188,1651.0,June,50.59,9.2,26.1
+Central Plai,-104.7326,40.8188,1651.0,July,39.57,12.5,30.6
+Central Plai,-104.7326,40.8188,1651.0,August,38.07,11.8,29.3
+Central Plai,-104.7326,40.8188,1651.0,September,30.23,6.7,24.4
+Central Plai,-104.7326,40.8188,1651.0,October,20.20,0.5,16.9
+Central Plai,-104.7326,40.8188,1651.0,November,10.80,-5.4,9.6
+Central Plai,-104.7326,40.8188,1651.0,December,7.38,-9.7,4.6
+Central Plai,-104.7326,40.8188,1651.0,Annual,340.89,0.5,16.6
+
