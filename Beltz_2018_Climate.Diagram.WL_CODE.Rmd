@@ -24,6 +24,7 @@ Install Packages:
 install.packages("climatol")
 install.packages("knitr")
 install.packages("dplyr")
+install.packages("lubridate")
 install.packages("here")
 ```
 
@@ -32,8 +33,14 @@ Load `climatol` package:
 
 ```{r}
 library(climatol)
+```
+
+Load other packages:
+
+```{r}
 library(knitr)
 library(dplyr)
+library(lubridate)
 library(here)
 ```
 
@@ -179,6 +186,7 @@ dev.off()
 
 DAYMET (https://daymet.ornl.gov/) provides estimates for seven weather parameters for all of North America, inclusive of Canadao, Mexico, and the United States. Begin by loading installing (if needed) and loading the `daymetr` package which will all you to download the needed climate data.
 
+
 Install the `daymetR` package:
 
 ```{r, eval=F}
@@ -191,7 +199,6 @@ Load `daymetr` package:
 
 ```{r}
 library(daymetr)
-
 ```
 
 
@@ -341,20 +348,6 @@ Thus far we have used 'mean minimum monthly temperature' in the place of 'absolu
 Go back to the PRISM: Data Explorer (http://www.prism.oregonstate.edu/explorer/) and download the data for New Haven, CT. Get as close to FES and Sage Hall as possible. You should make all the same selections as in Example 2, **except** choose daily values (Jan 1, 1981-Dec 31, 2010). *Note: You will only be able to select entire grid cells at first. Once you select 'interpolate grid cell values,' you will be able to choose any point within the U.S.'*
 
 
-Install the `lubridate` package:
-
-```{r, eval=F}
-#only install if needed
-install.packages("lubridate")
-```
-
-
-Load `lubridate` package:
-
-```{r}
-library(lubridate)
-```
-
 
 Read in the FES daily PRISM data:
 
@@ -392,21 +385,6 @@ Remove original date column:
 Ex5.orig <- Ex5.orig[,-1]
 
 head(tmp.orig)
-```
-
-
-Install `dplyr` package:
-
-```{r, eval=F}
-#only install if needed
-install.packages("dplyr")
-```
-
-
-Load `dplyr` package:
-
-```{r}
-library(dplyr)
 ```
 
 
