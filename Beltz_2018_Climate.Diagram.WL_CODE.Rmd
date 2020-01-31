@@ -155,7 +155,7 @@ NYC_climate.normal <- read.csv("https://raw.githubusercontent.com/cwbeltz/Sketch
 head(NYC_climate.normal)
 ```
 
-*Note: R may add an X in front of the numbers that reflect the month. This is not a problem, at least for this use case, and we can ignore it. This is a common occurence when using `read.csv` to read in data that has columns names that begin with or are a number.*
+*Note: R may add an X in front of the numbers that reflect the month in the column header. This is not a problem, at least for this use case, and we can ignore it. This is a common occurence when using `read.csv` to read in data that has columns names that begin with or are a number.*
 
 
 Create Walter-Lieth diagram:
@@ -218,11 +218,28 @@ Vancouver_data <- download_daymet(site = "VancouverCAN",
 Subset location/site parameters:
 
 ```{r}
+Vancouver_site <- Vancouver_data[1,1:5]
+```
+
+
+Remove extraneous data:
+
+```{r}
 
 ```
 
 
-Condense data to 30-yr monthly climate normals:
+
+Create 'month' variable from day-of-year:
+
+```{r}
+Vancouver_data$year.yday <- paste(Vancouver_data$year, Vancouver_data$yday, sep="-")
+
+Vancouver_data$month <- month(as.POSIXlt(Vancouver_data$year.yday, format="%Y-%j"), label=TRUE)
+```
+
+
+Condense daily data to 30-yr monthly climate normals:
 
 ```{r}
 
